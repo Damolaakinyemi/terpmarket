@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TerpMarket — by UMD students, for UMD students</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #C8102E;
+    --red-dark: #9B0C24;
+    --gold: #FFD200;
+    --gold-soft: #F5E6A0;
+    --ink: #1A1614;
+    --paper: #FAF6EE;
+    --paper-warm: #F2EBDB;
+    --line: #1A1614;
+    --muted: #7A7166;
+    --green: #2D6A4F;
+    --shadow: 4px 4px 0 var(--ink);
+    --shadow-sm: 2px 2px 0 var(--ink);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(26,22,20,0.08) 1px, transparent 0);
+    background-size: 24px 24px;
+    min-height: 100vh;
+  }
+
+  .display { font-family: 'Fraunces', serif; font-weight: 800; letter-spacing: -0.02em; line-height: 1; }
+  .serif { font-family: 'Fraunces', serif; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  /* ============ HEADER ============ */
+  header {
+    border-bottom: 2px solid var(--ink);
+    background: var(--paper);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+  .logo-mark {
+    width: 38px; height: 38px;
+    background: var(--red);
+    color: var(--paper);
+    display: grid; place-items: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 22px;
+    border: 2px solid var(--ink);
+    box-shadow: var(--shadow-sm);
+    transform: rotate(-3deg);
+  }
+  .logo-text {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+  }
+  .logo-text sup {
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--red);
+    margin-left: 2px;
+    font-weight: 500;
+  }
+
+  .search-bar {
+    flex: 1;
+    max-width: 420px;
+    position: relative;
+  }
+  .search-bar input {
+    width: 100%;
+    padding: 10px 14px 10px 38px;
+    border: 2px solid var(--ink);
+    background: var(--paper-warm);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    border-radius: 0;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.1s;
+  }
+  .search-bar input:focus {
+    outline: none;
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .search-bar svg {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px; height: 16px;
+  }
+
+  .nav {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  button, .btn {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 9px 16px;
+    border: 2px solid var(--ink);
+    background: var(--paper);
+    color: var(--ink);
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.08s, box-shadow 0.08s;
+    white-space: nowrap;
+  }
+  button:hover, .btn:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  button:active, .btn:active {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0 var(--ink);
+  }
+  .btn-primary {
+    background: var(--red);
+    color: var(--paper);
+  }
+  .btn-gold {
+    background: var(--gold);
+    color: var(--ink);
+  }
+  .btn-ghost {
+    background: transparent;
+    box-shadow: none;
+    border-color: transparent;
+  }
+  .btn-ghost:hover { background: var(--paper-warm); transform: none; box-shadow: none; }
+
+  /* ============ BANNER ============ */
+  .banner {
+    background: var(--ink);
+    color: var(--gold);
+    padding: 8px 24px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .banner span { color: var(--paper); }
+
+  /* ============ MAIN LAYOUT ============ */
+  main {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    margin-bottom: 40px;
+    position: relative;
+    padding: 36px 32px;
+    background: var(--paper-warm);
+    border: 2px solid var(--ink);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    background: var(--gold);
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    z-index: 0;
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 720px; }
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--red);
+    margin-bottom: 14px;
+    font-weight: 700;
+  }
+  .hero-eyebrow::before {
+    content: "✦ ";
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: clamp(36px, 5vw, 56px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    margin-bottom: 16px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--red);
+    font-weight: 400;
+  }
+  .hero p {
+    font-size: 17px;
+    color: var(--ink);
+    max-width: 520px;
+    line-height: 1.5;
+    margin-bottom: 24px;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px dashed var(--ink);
+  }
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 28px;
+    line-height: 1;
+    color: var(--red);
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* ============ CATEGORY CHIPS ============ */
+  .categories {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .cat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-right: 8px;
+  }
+  .chip {
+    padding: 7px 14px;
+    border: 1.5px solid var(--ink);
+    background: var(--paper);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.1s;
+    font-family: 'Inter', sans-serif;
+  }
+  .chip:hover { background: var(--paper-warm); }
+  .chip.active {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  /* ============ LISTING GRID ============ */
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .section-head h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 28px;
+    letter-spacing: -0.02em;
+  }
+  .section-head .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  .card-img {
+    aspect-ratio: 4/3;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 2px solid var(--ink);
+    display: grid;
+    place-items: center;
+    font-size: 80px;
+  }
+  .card-img.bg-1 { background: linear-gradient(135deg, #FFD200 0%, #F5E6A0 100%); }
+  .card-img.bg-2 { background: linear-gradient(135deg, #C8102E 0%, #9B0C24 100%); }
+  .card-img.bg-3 { background: linear-gradient(135deg, #2D6A4F 0%, #95D5B2 100%); }
+  .card-img.bg-4 { background: linear-gradient(135deg, #F2EBDB 0%, #FAF6EE 100%); }
+  .card-img.bg-5 { background: linear-gradient(135deg, #1A1614 0%, #4A4441 100%); }
+  .card-img.bg-6 { background: linear-gradient(135deg, #F5E6A0 0%, #FFD200 100%); }
+
+  .card-tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--paper);
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    padding: 3px 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+  }
+  .card-tag.urgent {
+    background: var(--red);
+    color: var(--paper);
+  }
+  .card-body {
+    padding: 14px 16px 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 1.2;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .card-meta {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .card-meta .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted); }
+  .card-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: auto;
+    padding-top: 8px;
+  }
+  .card-price {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--ink);
+  }
+  .card-price.free { color: var(--green); }
+  .card-seller {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    text-align: right;
+  }
+  .card-seller .name { color: var(--ink); font-weight: 500; }
+
+  /* ============ FOOTER ============ */
+  footer {
+    border-top: 2px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    padding: 40px 24px;
+    margin-top: 60px;
+  }
+  .footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 40px;
+  }
+  .footer-inner h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 20px;
+    margin-bottom: 8px;
+    color: var(--gold);
+  }
+  .footer-inner p { font-size: 13px; color: rgba(250, 246, 238, 0.7); line-height: 1.6; }
+  .footer-inner a { color: var(--paper); text-decoration: none; display: block; padding: 4px 0; font-size: 13px; }
+  .footer-inner a:hover { color: var(--gold); }
+  .footer-bottom {
+    max-width: 1280px;
+    margin: 32px auto 0;
+    padding-top: 20px;
+    border-top: 1px solid rgba(250, 246, 238, 0.2);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(250, 246, 238, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* ============ MODAL ============ */
+  .modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 22, 20, 0.7);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-backdrop.show { display: flex; }
+  .modal {
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    box-shadow: 8px 8px 0 var(--ink);
+    max-width: 720px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+  }
+  .modal-close {
+    position: absolute;
+    top: 12px; right: 12px;
+    width: 32px; height: 32px;
+    border: 2px solid var(--ink);
+    background: var(--paper);
+    cursor: pointer;
+    display: grid; place-items: center;
+    font-size: 16px;
+    box-shadow: var(--shadow-sm);
+    z-index: 10;
+  }
+  .modal-body { padding: 36px 36px 36px; }
+  .modal h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 32px;
+    line-height: 1;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .modal h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 20px;
+    margin: 20px 0 10px;
+  }
+  .modal-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--red);
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+
+  /* ============ FORMS ============ */
+  .form-row { margin-bottom: 16px; }
+  .form-row label {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink);
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .form-row input,
+  .form-row select,
+  .form-row textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid var(--ink);
+    background: var(--paper);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    border-radius: 0;
+  }
+  .form-row input:focus,
+  .form-row select:focus,
+  .form-row textarea:focus {
+    outline: none;
+    background: var(--paper-warm);
+  }
+  .form-row textarea { min-height: 90px; resize: vertical; }
+  .form-row-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-hint {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .form-error {
+    background: var(--red);
+    color: var(--paper);
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 2px solid var(--ink);
+  }
+  .form-success {
+    background: var(--green);
+    color: var(--paper);
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 2px solid var(--ink);
+  }
+
+  /* ============ DETAIL VIEW ============ */
+  .detail-img {
+    aspect-ratio: 16/10;
+    border-bottom: 2px solid var(--ink);
+    display: grid;
+    place-items: center;
+    font-size: 120px;
+  }
+  .detail-body { padding: 28px 36px 36px; }
+  .detail-tags {
+    display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap;
+  }
+  .detail-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border: 1.5px solid var(--ink);
+    padding: 3px 8px;
+    background: var(--paper);
+  }
+  .detail-tag.gold { background: var(--gold); }
+  .detail-price {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 44px;
+    color: var(--red);
+    line-height: 1;
+    margin: 8px 0 18px;
+    letter-spacing: -0.02em;
+  }
+  .detail-meta {
+    background: var(--paper-warm);
+    border: 1.5px solid var(--ink);
+    padding: 14px 18px;
+    margin: 18px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 24px;
+    font-size: 13px;
+  }
+  .detail-meta strong {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 2px;
+    font-weight: 600;
+  }
+  .detail-desc { font-size: 15px; line-height: 1.6; margin-bottom: 24px; }
+  .seller-card {
+    border: 2px dashed var(--ink);
+    padding: 16px;
+    margin: 20px 0;
+    background: var(--paper-warm);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .seller-avatar {
+    width: 48px; height: 48px;
+    background: var(--red);
+    color: var(--paper);
+    display: grid; place-items: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 20px;
+    border: 2px solid var(--ink);
+  }
+  .seller-info { flex: 1; }
+  .seller-info .name { font-weight: 600; font-size: 15px; }
+  .seller-info .info {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .verified-badge {
+    color: var(--green);
+    font-weight: 600;
+  }
+
+  /* ============ VERIFY MODAL ============ */
+  .verify-step {
+    text-align: center;
+    padding: 20px 0;
+  }
+  .verify-icon {
+    width: 72px; height: 72px;
+    background: var(--gold);
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    margin: 0 auto 18px;
+    font-size: 32px;
+    box-shadow: var(--shadow);
+  }
+  .email-mock {
+    background: var(--paper-warm);
+    border: 2px solid var(--ink);
+    padding: 18px;
+    margin: 20px 0;
+    text-align: left;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+  .email-mock .from { color: var(--muted); font-size: 11px; margin-bottom: 4px; }
+  .email-mock .subj { font-weight: 700; margin-bottom: 12px; color: var(--red); }
+  .email-mock .body { line-height: 1.6; color: var(--ink); }
+  .email-mock .link {
+    display: inline-block;
+    margin-top: 10px;
+    color: var(--red);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 720px) {
+    .header-inner { flex-wrap: wrap; gap: 12px; }
+    .search-bar { order: 3; flex-basis: 100%; }
+    .footer-inner { grid-template-columns: 1fr; gap: 24px; }
+    .form-row-group { grid-template-columns: 1fr; }
+    .modal-body { padding: 24px; }
+    .hero { padding: 28px 22px; }
+    .hero-stats { gap: 20px; }
+    .detail-meta { grid-template-columns: 1fr; }
+    .nav .btn-text { display: none; }
+  }
+
+  /* ============ ANIMATIONS ============ */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .grid .card { animation: fadeUp 0.5s ease-out backwards; }
+  .grid .card:nth-child(1) { animation-delay: 0.05s; }
+  .grid .card:nth-child(2) { animation-delay: 0.1s; }
+  .grid .card:nth-child(3) { animation-delay: 0.15s; }
+  .grid .card:nth-child(4) { animation-delay: 0.2s; }
+  .grid .card:nth-child(5) { animation-delay: 0.25s; }
+  .grid .card:nth-child(6) { animation-delay: 0.3s; }
+  .grid .card:nth-child(7) { animation-delay: 0.35s; }
+  .grid .card:nth-child(8) { animation-delay: 0.4s; }
+</style>
+</head>
+<body>
+
+<div class="banner">
+  ✦ <span>Move-out week is coming.</span> List early, sell faster.
+</div>
+
+<header>
+  <div class="header-inner">
+    <div class="logo" onclick="goHome()">
+      <div class="logo-mark">T</div>
+      <div class="logo-text">TerpMarket<sup>UMD</sup></div>
+    </div>
+    <div class="search-bar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>
+      </svg>
+      <input type="text" id="searchInput" placeholder="Search dressers, ECON 200, twin XL bedding…" oninput="handleSearch()">
+    </div>
+    <div class="nav">
+      <button class="btn-ghost" onclick="openLogin()">Sign in</button>
+      <button class="btn-primary" onclick="openListForm()">+ <span class="btn-text">Sell something</span></button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-eyebrow">Verified UMD students only</div>
+      <h1>The campus marketplace<br><em>built for Terps.</em></h1>
+      <p>Buy and sell furniture, textbooks, dorm essentials, and everything in between — only with verified students from your school. No randos. No driving 30 minutes. Just fellow Terps walking it down the hall.</p>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num" id="statCount">—</div>
+          <div class="stat-label">Active listings</div>
+        </div>
+        <div>
+          <div class="stat-num">$284</div>
+          <div class="stat-label">Avg. saved per buyer</div>
+        </div>
+        <div>
+          <div class="stat-num">100%</div>
+          <div class="stat-label">@umd.edu verified</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <div class="categories" id="categories">
+    <span class="cat-label">Filter:</span>
+    <button class="chip active" data-cat="All" onclick="filterCategory('All')">All</button>
+    <button class="chip" data-cat="Furniture" onclick="filterCategory('Furniture')">Furniture</button>
+    <button class="chip" data-cat="Textbooks" onclick="filterCategory('Textbooks')">Textbooks</button>
+    <button class="chip" data-cat="Dorm Essentials" onclick="filterCategory('Dorm Essentials')">Dorm Essentials</button>
+    <button class="chip" data-cat="Clothing" onclick="filterCategory('Clothing')">Clothing</button>
+    <button class="chip" data-cat="Electronics" onclick="filterCategory('Electronics')">Electronics</button>
+    <button class="chip" data-cat="Kitchen" onclick="filterCategory('Kitchen')">Kitchen</button>
+    <button class="chip" data-cat="Bikes & Transport" onclick="filterCategory('Bikes & Transport')">Bikes & Transport</button>
+    <button class="chip" data-cat="Free Stuff" onclick="filterCategory('Free Stuff')">Free Stuff</button>
+  </div>
+
+  <!-- SECTION HEADER -->
+  <div class="section-head">
+    <h2 id="sectionTitle">Fresh listings</h2>
+    <div class="meta" id="sectionMeta">Updated just now</div>
+  </div>
+
+  <!-- GRID -->
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h3>TerpMarket</h3>
+      <p>An independent marketplace built by and for University of Maryland students. Not affiliated with the university. Just a couple of Terps trying to keep good stuff out of the dumpster.</p>
+    </div>
+    <div>
+      <h3>Browse</h3>
+      <a href="#">All listings</a>
+      <a href="#">Textbooks by class</a>
+      <a href="#">Move-out deals</a>
+      <a href="#">Free stuff</a>
+    </div>
+    <div>
+      <h3>Help</h3>
+      <a href="#">How it works</a>
+      <a href="#">Safety guidelines</a>
+      <a href="#">Report a listing</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 TerpMarket · College Park, MD</span>
+    <span>Built by a Terp ✦</span>
+  </div>
+</footer>
+
+<!-- DETAIL MODAL -->
+<div class="modal-backdrop" id="detailModal">
+  <div class="modal" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal('detailModal')">×</button>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<!-- LIST FORM MODAL -->
+<div class="modal-backdrop" id="listModal">
+  <div class="modal" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal('listModal')">×</button>
+    <div class="modal-body">
+      <div class="modal-eyebrow">Create a listing</div>
+      <h2>Sell something to a fellow Terp</h2>
+      <p style="color: var(--muted); font-size: 14px; margin-top: 8px; margin-bottom: 24px;">Listings are free. Only verified UMD students can post and message.</p>
+
+      <div id="listFormError" class="form-error" style="display:none;"></div>
+
+      <div class="form-row">
+        <label>Title</label>
+        <input type="text" id="f_title" placeholder="e.g. IKEA Malm 6-drawer dresser, white">
+      </div>
+      <div class="form-row-group">
+        <div class="form-row">
+          <label>Price ($)</label>
+          <input type="number" id="f_price" placeholder="40" min="0">
+          <div class="form-hint">Enter 0 for "free"</div>
+        </div>
+        <div class="form-row">
+          <label>Category</label>
+          <select id="f_category">
+            <option>Furniture</option>
+            <option>Textbooks</option>
+            <option>Dorm Essentials</option>
+            <option>Clothing</option>
+            <option>Electronics</option>
+            <option>Kitchen</option>
+            <option>Bikes & Transport</option>
+            <option>Free Stuff</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row-group">
+        <div class="form-row">
+          <label>Condition</label>
+          <select id="f_condition">
+            <option>New</option>
+            <option selected>Like New</option>
+            <option>Good</option>
+            <option>Fair</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>Pickup location</label>
+          <select id="f_location">
+            <option>Cumberland Hall</option>
+            <option>Cambridge Hall</option>
+            <option>Ellicott Hall</option>
+            <option>Denton Hall</option>
+            <option>Easton Hall</option>
+            <option>The Varsity</option>
+            <option>The View</option>
+            <option>Landmark</option>
+            <option>Tempo</option>
+            <option>Aspen Heights</option>
+            <option>The Standard</option>
+            <option>Off-campus / Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row" id="courseCodeRow" style="display:none;">
+        <label>Course code (textbooks only)</label>
+        <input type="text" id="f_course" placeholder="e.g. ECON 200, BMGT 220, BSCI 170">
+      </div>
+      <div class="form-row">
+        <label>Description</label>
+        <textarea id="f_desc" placeholder="Dimensions, condition notes, why you're selling, etc."></textarea>
+      </div>
+      <div class="form-row">
+        <label>Photo (pick a vibe)</label>
+        <select id="f_photo">
+          <option value="🪑">🪑 Chair / furniture</option>
+          <option value="📚">📚 Books</option>
+          <option value="🛏️">🛏️ Bed / mattress</option>
+          <option value="🖥️">🖥️ Electronics</option>
+          <option value="👕">👕 Clothing</option>
+          <option value="🚲">🚲 Bike</option>
+          <option value="🍳">🍳 Kitchen</option>
+          <option value="📦">📦 Other</option>
+        </select>
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-top: 24px;">
+        <button class="btn-primary" onclick="submitListing()" style="flex:1;">Post listing</button>
+        <button onclick="closeModal('listModal')">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LOGIN/VERIFY MODAL -->
+<div class="modal-backdrop" id="loginModal">
+  <div class="modal" onclick="event.stopPropagation()" style="max-width: 480px;">
+    <button class="modal-close" onclick="closeModal('loginModal')">×</button>
+    <div class="modal-body" id="loginContent"></div>
+  </div>
+</div>
+
+<script>
+  // ============ STATE ============
+  let currentFilter = 'All';
+  let currentSearch = '';
+  let signedInUser = null; // { name, email, verified }
+
+  const seedListings = [
+    {
+      id: 1,
+      title: "IKEA Malm 6-drawer dresser, white",
+      price: 35,
+      category: "Furniture",
+      condition: "Good",
+      location: "The Varsity",
+      desc: "Had it for 2 years, a few small scratches on the top but otherwise solid. Need it gone by May 22 — moving out and flying home. Cash or Venmo.",
+      photo: "🗄️",
+      bg: "bg-1",
+      seller: "Priya R.",
+      year: "Sr · ENGR",
+      tag: "MOVE-OUT",
+      tagUrgent: true
+    },
+    {
+      id: 2,
+      title: "Principles of Economics — Mankiw, 9th ed.",
+      price: 45,
+      category: "Textbooks",
+      condition: "Like New",
+      location: "Cumberland Hall",
+      course: "ECON 200",
+      desc: "Took ECON 200 last semester with Olekalns. Barely opened it (no judgement on lectures). Listed at $230 new, asking $45.",
+      photo: "📕",
+      bg: "bg-2",
+      seller: "Marcus T.",
+      year: "Soph · ECON",
+      tag: "ECON 200"
+    },
+    {
+      id: 3,
+      title: "Twin XL mattress topper + sheets bundle",
+      price: 25,
+      category: "Dorm Essentials",
+      condition: "Good",
+      location: "Ellicott Hall",
+      desc: "Memory foam topper (2-inch) + 2 sets of grey jersey sheets. Washed & ready. Saved my freshman year, passing it on.",
+      photo: "🛏️",
+      bg: "bg-3",
+      seller: "Sarah K.",
+      year: "Soph · BSCI",
+      tag: "DORM ESS"
+    },
+    {
+      id: 4,
+      title: "Mini fridge — 3.2 cu ft, works perfectly",
+      price: 60,
+      category: "Dorm Essentials",
+      condition: "Like New",
+      location: "Denton Hall",
+      desc: "Whirlpool, freezer compartment included. Cold and quiet. Bought new in August for $130. Selling because I'm moving to a place with a real kitchen.",
+      photo: "🧊",
+      bg: "bg-4",
+      seller: "Jamal W.",
+      year: "Jr · CMNS"
+    },
+    {
+      id: 5,
+      title: "Trek hybrid bike, 54cm — locked at McKeldin",
+      price: 140,
+      category: "Bikes & Transport",
+      condition: "Good",
+      location: "Off-campus / Other",
+      desc: "Trek FX 1, well-maintained. New tires last fall. Comes with U-lock and a helmet. Great for getting around campus without the bus crowd.",
+      photo: "🚲",
+      bg: "bg-5",
+      seller: "Alex M.",
+      year: "Sr · KNES"
+    },
+    {
+      id: 6,
+      title: "Calculus: Early Transcendentals — Stewart 9e",
+      price: 30,
+      category: "Textbooks",
+      condition: "Fair",
+      location: "Cambridge Hall",
+      course: "MATH 140",
+      desc: "Got me through MATH 140 and 141. Some highlighting in the early chapters but otherwise fine. Loose-leaf, comes with binder.",
+      photo: "📘",
+      bg: "bg-6",
+      seller: "Diana L.",
+      year: "Jr · MATH",
+      tag: "MATH 140"
+    },
+    {
+      id: 7,
+      title: "Standing desk converter (gas spring)",
+      price: 55,
+      category: "Furniture",
+      condition: "Like New",
+      location: "Tempo",
+      desc: "FlexiSpot M2B, holds two monitors. Used for a semester. Saved my back during finals and now it can save yours.",
+      photo: "💼",
+      bg: "bg-1",
+      seller: "Ravi N.",
+      year: "Sr · CMSC"
+    },
+    {
+      id: 8,
+      title: "Free: 2 desk lamps, working condition",
+      price: 0,
+      category: "Free Stuff",
+      condition: "Fair",
+      location: "Easton Hall",
+      desc: "Both work, one has a slightly bent neck. First come first serve. Just don't want to throw them out.",
+      photo: "💡",
+      bg: "bg-3",
+      seller: "Kim H.",
+      year: "Fr · UNDC",
+      tag: "FREE"
+    },
+    {
+      id: 9,
+      title: "Air fryer (Cosori 5.8qt) — barely used",
+      price: 38,
+      category: "Kitchen",
+      condition: "Like New",
+      location: "Aspen Heights",
+      desc: "Made chicken nuggets in it like 4 times. Tray and basket are dishwasher safe. Works great, just downsizing for summer.",
+      photo: "🍳",
+      bg: "bg-2",
+      seller: "Theo G.",
+      year: "Soph · BMGT"
+    },
+    {
+      id: 10,
+      title: "Formal dress, size M — worn once at Greek formal",
+      price: 25,
+      category: "Clothing",
+      condition: "Like New",
+      location: "The View",
+      desc: "Black satin midi, has a slit. Wore to Spring formal, perfect condition. Originally $80 at Lulus.",
+      photo: "👗",
+      bg: "bg-2",
+      seller: "Maya O.",
+      year: "Jr · GVPT"
+    },
+    {
+      id: 11,
+      title: "Organic Chemistry — Klein 4e + solutions manual",
+      price: 70,
+      category: "Textbooks",
+      condition: "Good",
+      location: "Landmark",
+      course: "CHEM 271",
+      desc: "Both books for CHEM 271/272. Solutions manual is essentially required and the bookstore charges $90 for it alone. Both for $70.",
+      photo: "📗",
+      bg: "bg-3",
+      seller: "Nia B.",
+      year: "Soph · BCHM",
+      tag: "CHEM 271"
+    },
+    {
+      id: 12,
+      title: "Curtain rod + light-blocking curtains (set of 2)",
+      price: 15,
+      category: "Dorm Essentials",
+      condition: "Good",
+      location: "Cumberland Hall",
+      desc: "Fits standard dorm windows. Grey, washed, ready to go. The window faces east and these are how I survived 8am classes.",
+      photo: "🪟",
+      bg: "bg-4",
+      seller: "Sam P.",
+      year: "Fr · LTSC"
+    }
+  ];
+
+  let listings = [...seedListings];
+  let nextId = 100;
+
+  // ============ RENDER ============
+  function renderGrid() {
+    const grid = document.getElementById('grid');
+    let filtered = listings;
+    if (currentFilter !== 'All') {
+      filtered = filtered.filter(l => l.category === currentFilter);
+    }
+    if (currentSearch) {
+      const q = currentSearch.toLowerCase();
+      filtered = filtered.filter(l =>
+        l.title.toLowerCase().includes(q) ||
+        (l.desc || '').toLowerCase().includes(q) ||
+        (l.course || '').toLowerCase().includes(q) ||
+        l.category.toLowerCase().includes(q)
+      );
+    }
+    document.getElementById('statCount').textContent = listings.length;
+    document.getElementById('sectionMeta').textContent =
+      filtered.length + (filtered.length === 1 ? ' listing' : ' listings');
+
+    if (filtered.length === 0) {
+      grid.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding: 60px 20px; border: 2px dashed var(--ink); background: var(--paper-warm);">
+        <div style="font-family: 'Fraunces', serif; font-size: 24px; font-weight: 600; margin-bottom: 8px;">Nothing matches</div>
+        <div style="color: var(--muted); font-size: 14px;">Try a different category or search term.</div>
+      </div>`;
+      return;
+    }
+
+    grid.innerHTML = filtered.map(l => `
+      <article class="card" onclick="openDetail(${l.id})">
+        <div class="card-img ${l.bg}">
+          <span>${l.photo}</span>
+          ${l.tag ? `<span class="card-tag${l.tagUrgent ? ' urgent' : ''}">${l.tag}</span>` : ''}
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">${escapeHtml(l.title)}</h3>
+          <div class="card-meta">
+            <span>${l.location}</span>
+            <span class="dot"></span>
+            <span>${l.condition}</span>
+          </div>
+          <div class="card-foot">
+            <div class="card-price ${l.price === 0 ? 'free' : ''}">${l.price === 0 ? 'Free' : '$' + l.price}</div>
+            <div class="card-seller">
+              <div class="name">${l.seller}</div>
+              <div>${l.year}</div>
+            </div>
+          </div>
+        </div>
+      </article>
+    `).join('');
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  // ============ FILTER + SEARCH ============
+  function filterCategory(cat) {
+    currentFilter = cat;
+    document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c.dataset.cat === cat));
+    document.getElementById('sectionTitle').textContent = cat === 'All' ? 'Fresh listings' : cat;
+    renderGrid();
+  }
+  function handleSearch() {
+    currentSearch = document.getElementById('searchInput').value.trim();
+    renderGrid();
+  }
+  function goHome() {
+    document.getElementById('searchInput').value = '';
+    currentSearch = '';
+    filterCategory('All');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ============ MODAL ============
+  function openModal(id) {
+    document.getElementById(id).classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('show');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.modal-backdrop').forEach(b => {
+    b.addEventListener('click', e => { if (e.target === b) closeModal(b.id); });
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') document.querySelectorAll('.modal-backdrop.show').forEach(b => closeModal(b.id));
+  });
+
+  // ============ DETAIL VIEW ============
+  function openDetail(id) {
+    const l = listings.find(x => x.id === id);
+    if (!l) return;
+    const initials = l.seller.split(' ').map(w => w[0]).join('').slice(0,2);
+    document.getElementById('detailContent').innerHTML = `
+      <div class="detail-img ${l.bg}"><span>${l.photo}</span></div>
+      <div class="detail-body">
+        <div class="detail-tags">
+          <span class="detail-tag">${l.category}</span>
+          <span class="detail-tag">${l.condition}</span>
+          ${l.course ? `<span class="detail-tag gold">${l.course}</span>` : ''}
+          ${l.tag ? `<span class="detail-tag" style="background: var(--ink); color: var(--paper);">${l.tag}</span>` : ''}
+        </div>
+        <h2>${escapeHtml(l.title)}</h2>
+        <div class="detail-price">${l.price === 0 ? 'Free' : '$' + l.price}</div>
+        <p class="detail-desc">${escapeHtml(l.desc)}</p>
+        <div class="detail-meta">
+          <div><strong>Pickup</strong>${l.location}</div>
+          <div><strong>Condition</strong>${l.condition}</div>
+          <div><strong>Category</strong>${l.category}</div>
+          ${l.course ? `<div><strong>Course</strong>${l.course}</div>` : `<div><strong>Posted</strong>Just now</div>`}
+        </div>
+        <div class="seller-card">
+          <div class="seller-avatar">${initials}</div>
+          <div class="seller-info">
+            <div class="name">${l.seller} <span class="verified-badge">✓ Verified Terp</span></div>
+            <div class="info">${l.year} · @umd.edu confirmed</div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 8px;">
+          <button class="btn-primary" onclick="contactSeller('${l.seller}')" style="flex:1;">Message ${l.seller.split(' ')[0]}</button>
+          <button onclick="closeModal('detailModal')">Keep browsing</button>
+        </div>
+      </div>
+    `;
+    openModal('detailModal');
+  }
+
+  function contactSeller(name) {
+    if (!signedInUser || !signedInUser.verified) {
+      closeModal('detailModal');
+      openLogin('Sign in to message ' + name.split(' ')[0]);
+      return;
+    }
+    alert(`📬 Message thread with ${name} would open here.\n\nIn the real product: secure in-app messaging or revealed contact (Instagram / phone) per the seller's preference.`);
+  }
+
+  // ============ LIST FORM ============
+  function openListForm() {
+    if (!signedInUser || !signedInUser.verified) {
+      openLogin('Verify your UMD email to post a listing');
+      return;
+    }
+    openModal('listModal');
+  }
+
+  document.getElementById('f_category').addEventListener('change', e => {
+    document.getElementById('courseCodeRow').style.display = e.target.value === 'Textbooks' ? 'block' : 'none';
+  });
+
+  function submitListing() {
+    const title = document.getElementById('f_title').value.trim();
+    const price = parseInt(document.getElementById('f_price').value);
+    const category = document.getElementById('f_category').value;
+    const condition = document.getElementById('f_condition').value;
+    const location = document.getElementById('f_location').value;
+    const course = document.getElementById('f_course').value.trim();
+    const desc = document.getElementById('f_desc').value.trim();
+    const photo = document.getElementById('f_photo').value;
+
+    const errEl = document.getElementById('listFormError');
+    if (!title || isNaN(price) || price < 0 || !desc) {
+      errEl.textContent = 'Fill in title, price (0 or higher), and description.';
+      errEl.style.display = 'block';
+      return;
+    }
+    errEl.style.display = 'none';
+
+    const bgs = ['bg-1','bg-2','bg-3','bg-4','bg-5','bg-6'];
+    listings.unshift({
+      id: nextId++,
+      title, price, category, condition, location,
+      course: course || undefined,
+      desc, photo,
+      bg: bgs[Math.floor(Math.random()*bgs.length)],
+      seller: signedInUser.name,
+      year: 'You · UMD',
+      tag: 'JUST POSTED'
+    });
+
+    // reset form
+    document.getElementById('f_title').value = '';
+    document.getElementById('f_price').value = '';
+    document.getElementById('f_course').value = '';
+    document.getElementById('f_desc').value = '';
+
+    closeModal('listModal');
+    filterCategory('All');
+    document.getElementById('searchInput').value = '';
+    currentSearch = '';
+    renderGrid();
+    window.scrollTo({ top: document.querySelector('main').offsetTop, behavior: 'smooth' });
+  }
+
+  // ============ AUTH / VERIFY FLOW ============
+  function openLogin(message) {
+    renderLoginStart(message);
+    openModal('loginModal');
+  }
+
+  function renderLoginStart(message) {
+    document.getElementById('loginContent').innerHTML = `
+      <div class="modal-eyebrow">${message ? message : 'Sign in / Sign up'}</div>
+      <h2>Verify you're a Terp.</h2>
+      <p style="color: var(--muted); font-size: 14px; margin-top: 8px; margin-bottom: 22px;">TerpMarket is for verified UMD students only. Enter your @umd.edu or @terpmail.umd.edu address — we'll send a verification link.</p>
+
+      <div id="loginErr" class="form-error" style="display:none;"></div>
+
+      <div class="form-row">
+        <label>UMD email</label>
+        <input type="email" id="login_email" placeholder="yourname@terpmail.umd.edu">
+        <div class="form-hint">Only @umd.edu and @terpmail.umd.edu are accepted.</div>
+      </div>
+      <div class="form-row">
+        <label>Your first name</label>
+        <input type="text" id="login_name" placeholder="So sellers know who's messaging">
+      </div>
+
+      <button class="btn-primary" onclick="sendVerification()" style="width:100%; margin-top: 8px;">Send verification link</button>
+      <p style="font-size: 12px; color: var(--muted); text-align: center; margin-top: 16px;">By continuing you agree to our community guidelines: only UMD students, no scams, no illegal items.</p>
+    `;
+  }
+
+  function sendVerification() {
+    const email = document.getElementById('login_email').value.trim().toLowerCase();
+    const name = document.getElementById('login_name').value.trim();
+    const errEl = document.getElementById('loginErr');
+
+    if (!name) {
+      errEl.textContent = 'Please enter your first name.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (!email.endsWith('@umd.edu') && !email.endsWith('@terpmail.umd.edu')) {
+      errEl.textContent = "That doesn't look like a UMD email. Use @umd.edu or @terpmail.umd.edu.";
+      errEl.style.display = 'block';
+      return;
+    }
+
+    // Stage user (unverified)
+    signedInUser = { name, email, verified: false };
+
+    // Show simulated email
+    document.getElementById('loginContent').innerHTML = `
+      <div class="verify-step">
+        <div class="verify-icon">📬</div>
+        <div class="modal-eyebrow">Verification sent</div>
+        <h2>Check your inbox</h2>
+        <p style="color: var(--muted); font-size: 14px; margin-top: 8px;">We sent a verification link to <strong style="color: var(--ink)">${escapeHtml(email)}</strong>.</p>
+
+        <div class="email-mock">
+          <div class="from">From: noreply@terpmarket.com</div>
+          <div class="from">To: ${escapeHtml(email)}</div>
+          <div class="subj">Verify your UMD email for TerpMarket</div>
+          <div class="body">
+            Welcome to TerpMarket, ${escapeHtml(name)}!<br><br>
+            Click the link below to verify and activate your account:<br>
+            <span class="link" onclick="completeVerification()">→ Verify my UMD email</span><br><br>
+            This link expires in 24 hours. Didn't sign up? Ignore this email.
+          </div>
+        </div>
+
+        <p style="font-size: 12px; color: var(--muted); margin-top: 12px;">
+          (Prototype: clicking the link above simulates the verification.)
+        </p>
+      </div>
+    `;
+  }
+
+  function completeVerification() {
+    signedInUser.verified = true;
+    document.getElementById('loginContent').innerHTML = `
+      <div class="verify-step">
+        <div class="verify-icon" style="background: var(--green); color: var(--paper);">✓</div>
+        <div class="modal-eyebrow" style="color: var(--green);">Verified</div>
+        <h2>Welcome to TerpMarket, ${escapeHtml(signedInUser.name)}.</h2>
+        <p style="color: var(--muted); font-size: 14px; margin-top: 8px; margin-bottom: 24px;">You're confirmed as a UMD student. You can now post listings and message sellers.</p>
+
+        <div style="display: flex; gap: 10px;">
+          <button class="btn-primary" onclick="closeModal('loginModal'); openListForm();" style="flex:1;">Post my first listing</button>
+          <button onclick="closeModal('loginModal')">Just browse</button>
+        </div>
+      </div>
+    `;
+    // Update header to show signed in state
+    document.querySelector('.nav .btn-ghost').textContent = signedInUser.name + ' ✓';
+  }
+
+  // ============ INIT ============
+  renderGrid();
+</script>
+</body>
+</html>
